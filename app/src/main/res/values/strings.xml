@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Scratch</string>
+    <string-array name="drawer_items">
+        <item>Control</item>
+        <item>Logic</item>
+        <item>Variables</item>
+        <item>Sprites</item>
+        <item>Math</item>
+    </string-array>
+
+    <string-array name="control_items">
+        <item>Back</item>
+        <item>Start</item>
+    </string-array>
+
+    <string-array name="logic_items">
+        <item>Back</item>
+        <item>if</item>
+    </string-array>
+
+    <string-array name="variables_items">
+        <item>Back</item>
+        <item>New Number</item>
+    </string-array>
+
+    <string-array name="sprites_items">
+        <item>Back</item>
+        <item>Sprite</item>
+    </string-array>
+
+    <string-array name="math_items">
+        <item>Back</item>
+        <item>add</item>
+    </string-array>
+</resources>
