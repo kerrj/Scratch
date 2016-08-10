@@ -133,42 +133,42 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 break;
             case MotionEvent.ACTION_UP:
                 if(focus!=null) {
-                    boolean found=false;
-                    for(Iterator<ScriptBlock> iterator=ScriptBlockManager.getScriptBlocks().iterator(); iterator.hasNext()
-                            &&!found;){
-                        ScriptBlock s=iterator.next();
+                    boolean found = false;
+                    for (Iterator<ScriptBlock> iterator = ScriptBlockManager.getScriptBlocks().iterator(); iterator.hasNext()
+                            && !found; ) {
+                        ScriptBlock s = iterator.next();
                         if (s != focus) {
                             double distance = Math.sqrt(Math.pow(s.getChildNode()[0] - focus.getX(), 2) +
                                     Math.pow(s.getChildNode()[1] - focus.getY(), 2));
                             if (distance < 50) {
-                                if(s.getChild()==null) {//parent doesnt have a child(inserting at end of block)
+                                if (s.getChild() == null) {//parent doesnt have a child(inserting at end of block)
                                     focus.addParent(s);
                                     s.addChild(focus);
-                                    if(s.isNested()){
+                                    if (s.isNested()) {
                                         focus.setNested(true);
                                     }
-                                    found=true;
-                                }else{//parent has child(inserting between 2 blocks)
+                                    found = true;
+                                } else {//parent has child(inserting between 2 blocks)
                                     s.getChild().addParent(focus.getLastChild());
                                     focus.getLastChild().addChild(s.getChild());
                                     s.addChild(focus);
                                     focus.addParent(s);
-                                    if(s.isNested()){
+                                    if (s.isNested()) {
                                         focus.setNested(true);
                                     }
-                                    found=true;
+                                    found = true;
                                 }
                             }
-                            if(s.getBodyNode()!=null){
+                            if (s.getBodyNode() != null) {
                                 distance = Math.sqrt(Math.pow(s.getBodyNode()[0] - focus.getX(), 2) +
                                         Math.pow(s.getBodyNode()[1] - focus.getY(), 2));
-                                if(distance<50){
-                                    if(s.getBodyChild()==null){
+                                if (distance < 50) {
+                                    if (s.getBodyChild() == null) {
                                         focus.setNested(true);
                                         s.setBodyChild(focus);
                                         focus.setBodyParent(s);
-                                        found=true;
-                                    }else{
+                                        found = true;
+                                    } else {
                                         focus.setNested(true);
                                         s.getBodyChild().addParent(focus.getLastChild());
                                         focus.getLastChild().addChild(s.getBodyChild());
@@ -178,25 +178,29 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                                     }
                                 }
                             }
-                            if(s.getConditionalChildNode()!=null){
+                            if (s.getConditionalChildNode() != null) {
                                 distance = Math.sqrt(Math.pow(s.getConditionalChildNode()[0] - focus.getX(), 2) +
                                         Math.pow(s.getConditionalChildNode()[1] - focus.getY(), 2));
-                                Log.d("distance",Double.toString(distance));
-                                if(distance<50){
-                                    if(s.getConditionalChild()==null){
-                                        Log.d("child","null");
+                                if (distance < 50) {
+                                    if (s.getConditionalChild() == null) {
                                         focus.setNested(true);
                                         s.setConditionalChild(focus);
                                         focus.setConditionalParent(s);
-                                        found=true;
-                                    }else{
+                                        found = true;
+                                    } else {
                                         focus.setNested(true);
                                     }
                                 }
                             }
                         }
                     }
+                    double distance = Math.sqrt(Math.pow(e.getX() - actionDownCoordinates[0], 2) +
+                            Math.pow(e.getY() - actionDownCoordinates[1], 2));
+                    if(distance<5){//user tapped focus
+                        focus.makeDialog();
+                    }
                 }
+
                 break;
 
         }

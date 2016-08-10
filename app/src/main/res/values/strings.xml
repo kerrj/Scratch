@@ -16,6 +16,16 @@
     <string-array name="logic_items">
         <item>Back</item>
         <item>if</item>
+        <item>while</item>
+        <item>repeat</item>
+        <item>equal to</item>
+        <item>less than</item>
+        <item>greater than</item>
+        <item>and</item>
+        <item>or</item>
+
+
+
     </string-array>
 
     <string-array name="variables_items">

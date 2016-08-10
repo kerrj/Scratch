@@ -1,5 +1,6 @@
 package justin.scratch.logic;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,16 +18,17 @@ import justin.scratch.ScriptBlockManager;
 import justin.scratch.variables.NumberVariable;
 
 /**
- * Created by Justin on 8/7/2016.
+ * Created by Justin on 8/9/2016.
  */
-public class EqualTo extends ScriptBlock implements CompareDialog.CompareDialogListener,Parcelable {
+@SuppressLint("ParcelCreator")
+public class LessThan extends ScriptBlock implements Parcelable,CompareDialog.CompareDialogListener{
     private NumberVariable variableArg1 =null;
     private NumberVariable variableArg2 =null;
     private long valueArg1=0;
     private long valueArg2=0;
 
 
-    public EqualTo(){
+    public LessThan(){
         makeDialog();
     }
     @Override
@@ -45,7 +47,7 @@ public class EqualTo extends ScriptBlock implements CompareDialog.CompareDialogL
     }
     @Override
     public String getType(){
-        return "EqualTo";
+        return "LessThan";
     }
     @Override
     public double[] getChildNode(){
@@ -111,7 +113,7 @@ public class EqualTo extends ScriptBlock implements CompareDialog.CompareDialogL
             arg2=Long.toString(valueArg2);
         }
         canvas.drawText(arg1,(float)x,(float)y+TEXT_SIZE,paint);
-        canvas.drawText("=",(float)x+arg1.length()*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
+        canvas.drawText("<",(float)x+arg1.length()*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
         canvas.drawText(arg2,(float)x+TEXT_SIZE/2+arg1.length()*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
 
     }
@@ -121,7 +123,7 @@ public class EqualTo extends ScriptBlock implements CompareDialog.CompareDialogL
             variableArg1=null;
         }else if(s.containsKey("variableArg1")){
             valueArg1=0;
-            for(NumberVariable n:ScriptBlockManager.getVariables()){
+            for(NumberVariable n: ScriptBlockManager.getVariables()){
                 if(n.getName().equals(s.get("variableArg1"))){
                     variableArg1=n;
                 }

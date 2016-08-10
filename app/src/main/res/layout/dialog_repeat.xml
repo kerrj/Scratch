@@ -5,18 +5,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Name"
         android:textColor="@android:color/black"
-        android:id="@+id/nametext"
-        android:layout_marginRight="20dp"/>
+        android:text="How many times should this repeat?"
+        android:id="@+id/dialog_repeat_textView"
+        />
     <EditText
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nametext"
-        android:layout_marginRight="20dp"
-        android:id="@+id/name"
-        android:textColor="@android:color/black"
+        android:inputType="number"
+        android:id="@+id/dialog_repeat_editText"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="25dp"
         android:background="@color/transparentGrey"
-        android:hint="Name"/>
-
+        android:layout_below="@+id/dialog_repeat_textView"
+        />
 </RelativeLayout>

@@ -23,7 +23,9 @@ public class ScriptBlockManager  {
     }
 
     public static void removeScriptBlock(ScriptBlock s){
-        scriptBlocks.remove(s);
+        synchronized(list){
+            list.remove(s);
+        }
     }
     public static void removeVariable(NumberVariable n){
         variables.remove(n);

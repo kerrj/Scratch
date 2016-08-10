@@ -4,16 +4,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import java.util.ArrayList;
 
 import justin.scratch.ScriptBlock;
 
 /**
- * Created by Justin on 8/4/2016.
+ * Created by Justin on 8/9/2016.
  */
-public class If extends ScriptBlock {
+public class While extends ScriptBlock {
     private ScriptBlock conditionalChild;
     private ScriptBlock bodyChild;
     private static final int BODY_GAP=10;
@@ -24,7 +23,7 @@ public class If extends ScriptBlock {
     }
     @Override
     public String getType(){
-        return "If";
+        return "While";
     }
     @Override
     public ArrayList<ScriptBlock> getBody(boolean allChildren){
@@ -68,7 +67,7 @@ public class If extends ScriptBlock {
 
     @Override
     public double[] getConditionalChildNode(){
-        double[] d={x+WIDTH+50,y};
+        double[] d={x+WIDTH+90,y};
         return d;
     }
     @Override
@@ -99,7 +98,7 @@ public class If extends ScriptBlock {
         }
         paint.setColor(Color.WHITE);
         paint.setTextSize(TEXT_SIZE);
-        canvas.drawText("If",(float)x+BODY_GAP,(float)y+TEXT_SIZE,paint);
+        canvas.drawText("While",(float)x+BODY_GAP,(float)y+TEXT_SIZE,paint);
     }
 
     @Override
@@ -111,12 +110,6 @@ public class If extends ScriptBlock {
     @Override
     public void incPosition(double xstep,double ystep,boolean surfaceFocused){
         super.incPosition(xstep,ystep,surfaceFocused);
-//        if(!surfaceFocused) {
-//            for (ScriptBlock s : getBody(true)) {
-//                s.x += xstep;
-//                s.y += ystep;
-//            }
-//        }
     }
 
     @Override
@@ -132,10 +125,7 @@ public class If extends ScriptBlock {
 
     @Override
     public String parse(){
-        String script="if("+conditionalChild.parse()+"){";
-        //parse body
-        script+="}";
-        return script;
+        return "";
     }
 
     @Override
@@ -145,11 +135,10 @@ public class If extends ScriptBlock {
             bodyWidth+=s.getWidth();
         }
         ArrayList<Rect> rects=new ArrayList<>();
-        rects.add(new Rect((int)x,(int)y,(int)x+WIDTH+50,(int)y+WIDTH));
+        rects.add(new Rect((int)x,(int)y,(int)x+WIDTH+90,(int)y+WIDTH));
         rects.add(new Rect((int)x,(int)y,(int)x+WIDTH,(int)y+WIDTH+bodyWidth+BODY_GAP));
         rects.add(new Rect((int)x,(int)y+WIDTH+bodyWidth+BODY_GAP,(int)x+LENGTH,(int)y+2*WIDTH+bodyWidth+BODY_GAP));
 
         return rects;
     }
-
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/compareText"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="25dp"
+        android:text="Type in values or select variables"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/compareText"
+        android:text="Argument 1:"
+        android:id="@+id/arg1Text"
+        />
+    <EditText
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:id="@+id/valueIn1"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="25dp"
+        android:background="@color/transparentGrey"
+        android:layout_below="@+id/compareText"
+        android:layout_toRightOf="@+id/arg1Text"
+        />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:id="@+id/spinner1"
+        android:background="@color/transparentGrey"
+        android:layout_below="@+id/compareText"
+        android:layout_toRightOf="@+id/valueIn1"
+        >
+
+    </Spinner>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/arg1Text"
+        android:text="Argument 2:"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/arg2Text"
+        />
+    <EditText
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:background="@color/transparentGrey"
+        android:id="@+id/valueIn2"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_below="@+id/arg1Text"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/arg2Text"
+        />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner2"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/transparentGrey"
+        android:layout_below="@+id/arg1Text"
+        android:layout_toRightOf="@+id/valueIn2"
+        >
+
+    </Spinner>
+</RelativeLayout>

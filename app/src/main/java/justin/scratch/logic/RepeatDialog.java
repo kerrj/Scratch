@@ -1,54 +1,49 @@
-package justin.scratch.variables;
+package justin.scratch.logic;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 import justin.scratch.MainActivity;
-import justin.scratch.MySurfaceView;
 import justin.scratch.R;
-import justin.scratch.ScriptBlockManager;
 
 /**
- * Created by Justin on 8/7/2016.
+ * Created by Justin on 8/9/2016.
  */
-public class NumberVariableDialog extends DialogFragment {
-
-    public interface NumberVariableDialogListener{
+public class RepeatDialog extends DialogFragment{
+    public interface RepeatDialogListener{
         public void onPositiveClick(DialogFragment dialog,Bundle s);
-        public void onNegativeClick(DialogFragment dialog,Bundle s);
+        public void onNegativeClick(DialogFragment dialog);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle s){
-        final NumberVariableDialogListener listener=(NumberVariableDialogListener)getArguments().get("NumberVariable");
+        final RepeatDialogListener listener=(RepeatDialogListener)getArguments().get("ScriptBlock");
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-        builder.setTitle("Variable");
         LayoutInflater inflater = (LayoutInflater) MainActivity.getActivity().getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v=inflater.inflate(R.layout.dialog_number,null);
-        final EditText name=(EditText)v.findViewById(R.id.name);
-        final Bundle b=new Bundle();
+        View v=inflater.inflate(R.layout.dialog_repeat,null);
+        final EditText editText=(EditText)v.findViewById(R.id.dialog_repeat_editText);
+        builder.setTitle("Repeat for?");
         builder.setView(v);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                b.putString("Name",name.getText().toString());
-                listener.onPositiveClick(NumberVariableDialog.this,b);
+                Bundle s=new Bundle();
+                s.putString("repeatFor",editText.getText().toString());
+                listener.onPositiveClick(RepeatDialog.this,s);
             }
         });
         builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                listener.onNegativeClick(NumberVariableDialog.this,b);
+                listener.onNegativeClick(RepeatDialog.this);
             }
         });
         return builder.create();

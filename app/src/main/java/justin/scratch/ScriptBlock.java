@@ -1,7 +1,12 @@
 package justin.scratch;
 
+import android.annotation.SuppressLint;
+import android.app.DialogFragment;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -9,9 +14,10 @@ import java.util.ArrayList;
 /**
  * Created by Justin on 8/4/2016.
  */
-public class ScriptBlock {
-    public double x=300;
-    public double y=500;
+@SuppressLint("ParcelCreator")
+public class ScriptBlock implements ScriptBlockDialog.ScriptBlockDialogListener,Parcelable{
+    public double x=0;
+    public double y=0;
     public static final int WIDTH=100;
     public static final int LENGTH=400;
     public boolean nested=false;
@@ -121,7 +127,15 @@ public class ScriptBlock {
         }
     }
     public void makeDialog(){
-
+        Bundle s=new Bundle();
+        s.putString("Type",this.getType());
+        s.putParcelable("ScriptBlock",this);
+        ScriptBlockDialog dialog=new ScriptBlockDialog();
+        dialog.setArguments(s);
+        dialog.show(MainActivity.getActivity().getFragmentManager(),"scriptblock");
+    }
+    public String getType(){
+        return null;
     }
 
     public double[] getBodyNode(){
@@ -178,5 +192,50 @@ public class ScriptBlock {
 
     public double getY(){
         return y;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeValue(this);
+    }
+
+    @Override
+    public void onPositiveClick(DialogFragment dialog) {
+        //delete block
+        if(this.getBodyChild()!=null){
+            this.getBodyChild().removeBodyParent();
+        }
+        if(this.getChild()!=null){
+            this.getChild().removeParent();
+        }
+        if(this.getConditionalChild()!=null){
+            this.getConditionalChild().removeConditionalParent();
+        }
+        if(this.getParent()!=null){
+            this.getParent().removeChild();
+        }
+        if(this.getBodyParent()!=null){
+            this.getBodyParent().removeBodyChild();
+        }
+        if(this.getConditionalParent()!=null){
+            this.getConditionalParent().removeConditionalChild();
+        }
+        ScriptBlockManager.removeScriptBlock(this);
+        this.removeBodyChild();
+        this.removeBodyParent();
+        this.removeConditionalParent();
+        this.removeConditionalChild();
+        this.removeChild();
+        this.removeParent();
+    }
+
+    @Override
+    public void onNegativeClick(DialogFragment dialog) {
+        //do nothing
     }
 }

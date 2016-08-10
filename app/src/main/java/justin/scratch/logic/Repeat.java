@@ -1,30 +1,47 @@
 package justin.scratch.logic;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import justin.scratch.MainActivity;
 import justin.scratch.ScriptBlock;
+import justin.scratch.ScriptBlockManager;
 
 /**
- * Created by Justin on 8/4/2016.
+ * Created by Justin on 8/9/2016.
  */
-public class If extends ScriptBlock {
-    private ScriptBlock conditionalChild;
+public class Repeat extends ScriptBlock implements RepeatDialog.RepeatDialogListener,Parcelable{
     private ScriptBlock bodyChild;
+    private int repeatFor=1;
     private static final int BODY_GAP=10;
 
+    public Repeat(){
+        makeDialog();
+    }
+    @Override
+    public void makeDialog(){
+        RepeatDialog dialog=new RepeatDialog();
+        Bundle s=new Bundle();
+        s.putParcelable("ScriptBlock",this);
+        dialog.setArguments(s);
+        dialog.show(MainActivity.getActivity().getFragmentManager(),null);
+    }
     @Override
     public ScriptBlock getBodyChild(){
         return bodyChild;
     }
     @Override
     public String getType(){
-        return "If";
+        return "Repeat";
     }
     @Override
     public ArrayList<ScriptBlock> getBody(boolean allChildren){
@@ -66,15 +83,8 @@ public class If extends ScriptBlock {
         return node;
     }
 
-    @Override
-    public double[] getConditionalChildNode(){
-        double[] d={x+WIDTH+50,y};
-        return d;
-    }
-    @Override
-    public void removeConditionalChild(){
-        conditionalChild=null;
-    }
+
+
 
     @Override
     public int getWidth(){
@@ -85,10 +95,6 @@ public class If extends ScriptBlock {
         return WIDTH+WIDTH+BODY_GAP+bodyWidth;
     }
 
-    @Override
-    public void setConditionalChild(ScriptBlock s){
-        conditionalChild=s;
-    }
 
     public void draw(Canvas canvas){
         super.draw(canvas);
@@ -99,7 +105,8 @@ public class If extends ScriptBlock {
         }
         paint.setColor(Color.WHITE);
         paint.setTextSize(TEXT_SIZE);
-        canvas.drawText("If",(float)x+BODY_GAP,(float)y+TEXT_SIZE,paint);
+        canvas.drawText("Repeat",(float)x+BODY_GAP,(float)y+TEXT_SIZE,paint);
+        canvas.drawText(Integer.toString(repeatFor),(float)x+6*BODY_GAP+6*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
     }
 
     @Override
@@ -111,17 +118,11 @@ public class If extends ScriptBlock {
     @Override
     public void incPosition(double xstep,double ystep,boolean surfaceFocused){
         super.incPosition(xstep,ystep,surfaceFocused);
-//        if(!surfaceFocused) {
-//            for (ScriptBlock s : getBody(true)) {
-//                s.x += xstep;
-//                s.y += ystep;
-//            }
-//        }
     }
 
     @Override
     public void setPosition(double xstep,double ystep){
-        super.setPosition(xstep,ystep);
+        super.setPosition(xstep, ystep);
         double dx=xstep-x;
         double dy=ystep-y;
         for(ScriptBlock s:getBody(true)){
@@ -132,10 +133,7 @@ public class If extends ScriptBlock {
 
     @Override
     public String parse(){
-        String script="if("+conditionalChild.parse()+"){";
-        //parse body
-        script+="}";
-        return script;
+        return "";
     }
 
     @Override
@@ -145,11 +143,52 @@ public class If extends ScriptBlock {
             bodyWidth+=s.getWidth();
         }
         ArrayList<Rect> rects=new ArrayList<>();
-        rects.add(new Rect((int)x,(int)y,(int)x+WIDTH+50,(int)y+WIDTH));
+        rects.add(new Rect((int)x,(int)y,(int)x+LENGTH,(int)y+WIDTH));
         rects.add(new Rect((int)x,(int)y,(int)x+WIDTH,(int)y+WIDTH+bodyWidth+BODY_GAP));
         rects.add(new Rect((int)x,(int)y+WIDTH+bodyWidth+BODY_GAP,(int)x+LENGTH,(int)y+2*WIDTH+bodyWidth+BODY_GAP));
 
         return rects;
     }
 
+    @Override
+    public void onPositiveClick(DialogFragment f,Bundle s){
+        try {
+            repeatFor = Integer.decode(s.getString("repeatFor"));
+        }catch(NumberFormatException n){
+
+        }
+    }
+    @Override
+    public void onNegativeClick(DialogFragment f){
+        if(this.getBodyChild()!=null){
+            this.getBodyChild().removeBodyParent();
+        }
+        if(this.getChild()!=null){
+            this.getChild().removeParent();
+        }
+        if(this.getConditionalChild()!=null){
+            this.getConditionalChild().removeConditionalParent();
+        }
+        if(this.getParent()!=null){
+            this.getParent().removeChild();
+        }
+        if(this.getBodyParent()!=null){
+            this.getBodyParent().removeBodyChild();
+        }
+        if(this.getConditionalParent()!=null){
+            this.getConditionalParent().removeConditionalChild();
+        }
+        ScriptBlockManager.removeScriptBlock(this);
+        this.removeBodyChild();
+        this.removeBodyParent();
+        this.removeConditionalParent();
+        this.removeConditionalChild();
+        this.removeChild();
+        this.removeParent();
+        ScriptBlockManager.removeScriptBlock(this);
+    }
+    @Override
+    public void writeToParcel(Parcel p,int i){
+        p.writeValue(this);
+    }
 }

@@ -13,7 +13,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import justin.scratch.control.Start;
+import justin.scratch.logic.And;
+import justin.scratch.logic.EqualTo;
+import justin.scratch.logic.GreaterThan;
 import justin.scratch.logic.If;
+import justin.scratch.logic.LessThan;
+import justin.scratch.logic.Or;
+import justin.scratch.logic.Repeat;
+import justin.scratch.logic.While;
 import justin.scratch.variables.NumberVariable;
 
 /**
@@ -84,6 +91,34 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
                     case 1://if
                         drawerLayout.closeDrawer(Gravity.START);
                         ScriptBlockManager.addScriptBlock(new If());
+                        break;
+                    case 2://while
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new While());
+                        break;
+                    case 3://repeat
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new Repeat());
+                        break;
+                    case 4://equal to
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new EqualTo());
+                        break;
+                    case 5://less than
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new LessThan());
+                        break;
+                    case 6://greater than
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new GreaterThan());
+                        break;
+                    case 7://and
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new And());
+                        break;
+                    case 8://or
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new Or());
                         break;
                 }
                 listView.setAdapter(new ArrayAdapter<>(context, R.layout.drawer_item_layout,
