@@ -1,5 +1,6 @@
 package justin.scratch.control;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import justin.scratch.ScriptBlock;
 /**
  * Created by Justin on 8/6/2016.
  */
+@SuppressLint("ParcelCreator")
 public class Start extends ScriptBlock {
 
     @Override
@@ -45,8 +47,12 @@ public class Start extends ScriptBlock {
 
     @Override
     public String parse(){
-        String script="";
-        return script;
+        if(getChild()!=null){
+            return getChild().parse();
+        }else {
+            return "";
+        }
+
     }
 
     @Override

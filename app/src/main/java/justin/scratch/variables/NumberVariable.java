@@ -17,7 +17,7 @@ import justin.scratch.ScriptBlockManager;
  */
 @SuppressLint("ParcelCreator")
 public class NumberVariable extends ScriptBlock implements NumberVariableDialog.NumberVariableDialogListener,Parcelable{
-    private String name;
+    private String name="";
 
     public NumberVariable(){
         makeDialog();
@@ -38,6 +38,9 @@ public class NumberVariable extends ScriptBlock implements NumberVariableDialog.
     @Override
     public String getType(){
         return "NumberVariable";
+    }
+    public String parse(){
+        return "long "+this.getName()+"=0;";
     }
 
     @Override

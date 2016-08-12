@@ -29,6 +29,7 @@
         android:id="@+id/valueIn1"
         android:layout_marginTop="25dp"
         android:layout_marginRight="10dp"
+        android:textColor="@android:color/black"
         android:layout_marginBottom="25dp"
         android:background="@color/transparentGrey"
         android:layout_below="@+id/compareText"
@@ -40,7 +41,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp"
         android:id="@+id/spinner1"
-        android:background="@color/transparentGrey"
+        android:background="@android:color/white"
         android:layout_below="@+id/compareText"
         android:layout_toRightOf="@+id/valueIn1"
         >
@@ -61,6 +62,7 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
+        android:textColor="@android:color/black"
         android:background="@color/transparentGrey"
         android:id="@+id/valueIn2"
         android:layout_marginTop="25dp"
@@ -76,7 +78,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp"
         android:layout_marginRight="10dp"
-        android:background="@color/transparentGrey"
+        android:background="@android:color/white"
         android:layout_below="@+id/arg1Text"
         android:layout_toRightOf="@+id/valueIn2"
         >

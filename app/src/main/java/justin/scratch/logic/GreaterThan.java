@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import justin.scratch.MainActivity;
 import justin.scratch.ScriptBlock;
 import justin.scratch.ScriptBlockManager;
+import justin.scratch.TwoArgDialog;
 import justin.scratch.variables.NumberVariable;
 
 /**
  * Created by Justin on 8/9/2016.
  */
 @SuppressLint("ParcelCreator")
-public class GreaterThan extends ScriptBlock implements CompareDialog.CompareDialogListener,Parcelable {
+public class GreaterThan extends ScriptBlock implements TwoArgDialog.TwoArgListener,Parcelable {
     private NumberVariable variableArg1 =null;
     private NumberVariable variableArg2 =null;
     private long valueArg1=0;
@@ -33,7 +34,7 @@ public class GreaterThan extends ScriptBlock implements CompareDialog.CompareDia
     }
     @Override
     public void makeDialog(){
-        CompareDialog dialog=new CompareDialog();
+        TwoArgDialog dialog=new TwoArgDialog();
         Bundle s=new Bundle();
         s.putParcelable("ScriptBlock",this);
         dialog.setArguments(s);
@@ -174,6 +175,30 @@ public class GreaterThan extends ScriptBlock implements CompareDialog.CompareDia
     }
     @Override
     public String parse(){
-        return "";
+        String arg1="";
+        String arg2="";
+        if(variableArg1 !=null){
+            if(variableArg1.getName()!=null){
+                arg1= variableArg1.getName();
+            }else{
+                arg1=Long.toString(valueArg1);
+            }
+        }else{
+            arg1=Long.toString(valueArg1);
+        }
+        if(variableArg2 !=null){
+            if(variableArg2.getName()!=null){
+                arg2= variableArg2.getName();
+            }else{
+                arg2=Long.toString(valueArg2);
+            }
+        }else{
+            arg2=Long.toString(valueArg2);
+        }
+        try {
+            return arg1 + ">" + arg2 + getChild().parse();
+        }catch (NullPointerException n){
+            return arg1+">"+arg2;
+        }
     }
 }

@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.renderscript.Script;
 
 import java.util.ArrayList;
 
@@ -133,7 +134,22 @@ public class Repeat extends ScriptBlock implements RepeatDialog.RepeatDialogList
 
     @Override
     public String parse(){
-        return "";
+        String script= "for(int i=0;i<"+Integer.toString(repeatFor)+";i++){";
+        try {
+            script += getBodyChild().parse();
+        }catch(NullPointerException n){
+            try {
+                return "" + getChild().parse();
+            }catch(NullPointerException e){
+                return "";
+            }
+        }
+        script+="}";
+        try {
+            return script+getChild().parse();
+        }catch (NullPointerException n){
+            return script;
+        }
     }
 
     @Override

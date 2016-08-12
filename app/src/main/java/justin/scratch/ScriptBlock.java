@@ -9,15 +9,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Justin on 8/4/2016.
  */
 @SuppressLint("ParcelCreator")
-public class ScriptBlock implements ScriptBlockDialog.ScriptBlockDialogListener,Parcelable{
-    public double x=0;
-    public double y=0;
+public class ScriptBlock implements ScriptBlockDialog.ScriptBlockDialogListener,Parcelable,Serializable{
+    public double x=50;
+    public double y=50;
     public static final int WIDTH=100;
     public static final int LENGTH=400;
     public boolean nested=false;

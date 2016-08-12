@@ -5,35 +5,30 @@
     android:layout_height="match_parent"
     tools:context="justin.scratch.MainActivity"
     android:id="@+id/drawer_layout">
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <RelativeLayout
+        <justin.scratch.MySurfaceView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/instructions"-->
-                <!--android:text="Native Functions: print(String)"/>-->
-            <!--<EditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/editText"-->
-                <!--android:layout_below="@id/instructions" />-->
-            <justin.scratch.MySurfaceView
-                android:layout_width="match_parent"
-                android:layout_height="560dp"
-                android:id="@+id/surface_view"/>
-            <Button
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="@color/transparentGrey"
-                android:onClick="run"
-                android:layout_centerHorizontal="true"
-                android:text="Run"/>
-        </RelativeLayout>
-    </ScrollView>
+            android:layout_height="560dp"
+            android:id="@+id/surface_view"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@color/transparentGrey"
+            android:onClick="run"
+            android:text="Run"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/activity_main_runButton"
+            />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@color/transparentGrey"
+            android:onClick="save"
+            android:layout_toRightOf="@+id/activity_main_runButton"
+            android:text="Save"/>
+    </RelativeLayout>
     <ListView
         android:layout_width="200dp"
         android:animateLayoutChanges="false"

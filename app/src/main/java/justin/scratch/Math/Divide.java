@@ -1,4 +1,4 @@
-package justin.scratch.logic;
+package justin.scratch.Math;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -19,17 +19,17 @@ import justin.scratch.TwoArgDialog;
 import justin.scratch.variables.NumberVariable;
 
 /**
- * Created by Justin on 8/7/2016.
+ * Created by Justin on 8/10/2016.
  */
 @SuppressLint("ParcelCreator")
-public class EqualTo extends ScriptBlock implements TwoArgDialog.TwoArgListener,Parcelable {
+public class Divide extends ScriptBlock implements Parcelable,TwoArgDialog.TwoArgListener{
     private NumberVariable variableArg1 =null;
     private NumberVariable variableArg2 =null;
     private long valueArg1=0;
     private long valueArg2=0;
 
 
-    public EqualTo(){
+    public Divide(){
         makeDialog();
     }
     @Override
@@ -48,12 +48,7 @@ public class EqualTo extends ScriptBlock implements TwoArgDialog.TwoArgListener,
     }
     @Override
     public String getType(){
-        return "EqualTo";
-    }
-    @Override
-    public double[] getChildNode(){
-        double[] d={x+getLength(),y};
-        return d;
+        return "Divide";
     }
     @Override
     public int getWidth(){
@@ -87,11 +82,11 @@ public class EqualTo extends ScriptBlock implements TwoArgDialog.TwoArgListener,
     public void draw(Canvas canvas){
         super.draw(canvas);
         Paint paint=new Paint();
-        paint.setColor(Color.RED);
+        paint.setColor(Color.CYAN);
         for (Rect r:getRectangles()){
             canvas.drawRect(r,paint);
         }
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLACK);
         paint.setTextSize(TEXT_SIZE);
         String arg1="";
         String arg2="";
@@ -114,17 +109,17 @@ public class EqualTo extends ScriptBlock implements TwoArgDialog.TwoArgListener,
             arg2=Long.toString(valueArg2);
         }
         canvas.drawText(arg1,(float)x,(float)y+TEXT_SIZE,paint);
-        canvas.drawText("=",(float)x+arg1.length()*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
+        canvas.drawText("/",(float)x+arg1.length()*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
         canvas.drawText(arg2,(float)x+TEXT_SIZE/2+arg1.length()*TEXT_SIZE/2,(float)y+TEXT_SIZE,paint);
 
     }
-    @Override public void onPositiveClick(DialogFragment d,Bundle s){
+    @Override public void onPositiveClick(DialogFragment d, Bundle s){
         if(s.containsKey("valueArg1")){
             valueArg1=s.getLong("valueArg1");
             variableArg1=null;
         }else if(s.containsKey("variableArg1")){
             valueArg1=0;
-            for(NumberVariable n:ScriptBlockManager.getVariables()){
+            for(NumberVariable n: ScriptBlockManager.getVariables()){
                 if(n.getName().equals(s.get("variableArg1"))){
                     variableArg1=n;
                 }
@@ -196,9 +191,9 @@ public class EqualTo extends ScriptBlock implements TwoArgDialog.TwoArgListener,
             arg2=Long.toString(valueArg2);
         }
         try {
-            return arg1 + "==" + arg2+getChild().parse();
+            return arg1 + "/" + arg2+getChild().parse();
         }catch(NullPointerException n){
-            return arg1+"=="+arg2;
+            return arg1+"/"+arg2;
         }
     }
 }

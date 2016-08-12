@@ -31,6 +31,7 @@
     <string-array name="variables_items">
         <item>Back</item>
         <item>New Number</item>
+        <item>Set</item>
     </string-array>
 
     <string-array name="sprites_items">
@@ -41,5 +42,8 @@
     <string-array name="math_items">
         <item>Back</item>
         <item>add</item>
+        <item>subtract</item>
+        <item>multiply</item>
+        <item>divide</item>
     </string-array>
 </resources>

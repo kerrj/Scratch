@@ -14,8 +14,9 @@ import justin.scratch.variables.NumberVariable;
  */
 public class ScriptBlockManager  {
     private static ArrayList<ScriptBlock> scriptBlocks =new ArrayList<>();
-    private static List list=Collections.synchronizedList(scriptBlocks);
+    private static List scriptBlockList =Collections.synchronizedList(scriptBlocks);
     private static ArrayList<NumberVariable> variables=new ArrayList<>();
+    private static List<NumberVariable> variableList=Collections.synchronizedList(variables);
     private static MainActivity activity;
 
     public static void setActivity(MainActivity a){
@@ -23,30 +24,32 @@ public class ScriptBlockManager  {
     }
 
     public static void removeScriptBlock(ScriptBlock s){
-        synchronized(list){
-            list.remove(s);
+        synchronized(scriptBlockList){
+            scriptBlockList.remove(s);
         }
     }
-    public static void removeVariable(NumberVariable n){
-        variables.remove(n);
+    public static void removeVariable(NumberVariable n) {
+        synchronized (variableList){
+        variableList.remove(n);
+        }
     }
     public static void addScriptBlock(ScriptBlock scriptBlock){
         if(scriptBlock.getRectangles()!=null) {
-            synchronized (list) {
-                list.add(scriptBlock);
+            synchronized (scriptBlockList) {
+                scriptBlockList.add(scriptBlock);
             }
         }else{
-            variables.add((NumberVariable)scriptBlock);
+            variableList.add((NumberVariable)scriptBlock);
         }
     }
-    public static ArrayList<NumberVariable> getVariables(){
-        return variables;
+    public static List<NumberVariable> getVariables(){
+        return variableList;
     }
 
     public static ArrayList<Rect> getRectArray(){
         ArrayList<Rect> rects=new ArrayList<>();
-        synchronized (list) {
-            for (Iterator<ScriptBlock> iterator = list.iterator(); iterator.hasNext(); ) {
+        synchronized (scriptBlockList) {
+            for (Iterator<ScriptBlock> iterator = scriptBlockList.iterator(); iterator.hasNext(); ) {
                 ScriptBlock s = iterator.next();
                 for (Rect r : s.getRectangles()) {
                     rects.add(r);
@@ -56,14 +59,14 @@ public class ScriptBlockManager  {
         return rects;
     }
 
-    public static List getScriptBlocks(){
-        return list;
+    public static List<ScriptBlock> getScriptBlocks(){
+        return scriptBlockList;
     }
 
     public static ScriptBlock getTouchFocus(double x,double y){
         ScriptBlock focus=null;
-        synchronized(list) {
-            for (Iterator<ScriptBlock> iterator = list.iterator(); iterator.hasNext(); ) {
+        synchronized(scriptBlockList) {
+            for (Iterator<ScriptBlock> iterator = scriptBlockList.iterator(); iterator.hasNext(); ) {
                 ScriptBlock s = iterator.next();
                 for (Rect r : s.getRectangles()) {
                     if (r.contains((int) x, (int) y)) {

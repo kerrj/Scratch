@@ -138,25 +138,28 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             && !found; ) {
                         ScriptBlock s = iterator.next();
                         if (s != focus) {
-                            double distance = Math.sqrt(Math.pow(s.getChildNode()[0] - focus.getX(), 2) +
-                                    Math.pow(s.getChildNode()[1] - focus.getY(), 2));
-                            if (distance < 50) {
-                                if (s.getChild() == null) {//parent doesnt have a child(inserting at end of block)
-                                    focus.addParent(s);
-                                    s.addChild(focus);
-                                    if (s.isNested()) {
-                                        focus.setNested(true);
+                            double distance;
+                            if(s.getChildNode()!=null) {
+                                distance = Math.sqrt(Math.pow(s.getChildNode()[0] - focus.getX(), 2) +
+                                        Math.pow(s.getChildNode()[1] - focus.getY(), 2));
+                                if (distance < 50) {
+                                    if (s.getChild() == null) {//parent doesnt have a child(inserting at end of block)
+                                        focus.addParent(s);
+                                        s.addChild(focus);
+                                        if (s.isNested()) {
+                                            focus.setNested(true);
+                                        }
+                                        found = true;
+                                    } else {//parent has child(inserting between 2 blocks)
+                                        s.getChild().addParent(focus.getLastChild());
+                                        focus.getLastChild().addChild(s.getChild());
+                                        s.addChild(focus);
+                                        focus.addParent(s);
+                                        if (s.isNested()) {
+                                            focus.setNested(true);
+                                        }
+                                        found = true;
                                     }
-                                    found = true;
-                                } else {//parent has child(inserting between 2 blocks)
-                                    s.getChild().addParent(focus.getLastChild());
-                                    focus.getLastChild().addChild(s.getChild());
-                                    s.addChild(focus);
-                                    focus.addParent(s);
-                                    if (s.isNested()) {
-                                        focus.setNested(true);
-                                    }
-                                    found = true;
                                 }
                             }
                             if (s.getBodyNode() != null) {

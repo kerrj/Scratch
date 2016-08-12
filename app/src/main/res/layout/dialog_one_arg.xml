@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:gravity="center">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Choose a variable to set:"
+    android:id="@+id/dialog_one_arg_textView"
+    />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dialog_one_arg_textView"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/dialog_one_arg_spinner"
+        >
+    </Spinner>
+</RelativeLayout>

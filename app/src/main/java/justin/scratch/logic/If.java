@@ -1,5 +1,6 @@
 package justin.scratch.logic;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import justin.scratch.ScriptBlock;
 /**
  * Created by Justin on 8/4/2016.
  */
+@SuppressLint("ParcelCreator")
 public class If extends ScriptBlock {
     private ScriptBlock conditionalChild;
     private ScriptBlock bodyChild;
@@ -132,10 +134,23 @@ public class If extends ScriptBlock {
 
     @Override
     public String parse(){
-        String script="if("+conditionalChild.parse()+"){";
-        //parse body
+        String script="";
+        try {
+            script = "if(" + conditionalChild.parse() + "){";
+            script += bodyChild.parse();
+        }catch(NullPointerException n){
+            try {
+                return "" + getChild().parse();
+            }catch(NullPointerException e){
+                return "";
+            }
+        }
         script+="}";
-        return script;
+        try {
+            return script+getChild().parse();
+        }catch (NullPointerException n){
+            return script;
+        }
     }
 
     @Override

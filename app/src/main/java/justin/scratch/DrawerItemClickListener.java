@@ -2,6 +2,7 @@ package justin.scratch;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Environment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -10,8 +11,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import org.apache.http.cookie.SM;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import justin.scratch.Math.Add;
+import justin.scratch.Math.Divide;
+import justin.scratch.Math.Multiply;
+import justin.scratch.Math.Subtract;
 import justin.scratch.control.Start;
 import justin.scratch.logic.And;
 import justin.scratch.logic.EqualTo;
@@ -22,6 +35,7 @@ import justin.scratch.logic.Or;
 import justin.scratch.logic.Repeat;
 import justin.scratch.logic.While;
 import justin.scratch.variables.NumberVariable;
+import justin.scratch.variables.SetNumberVariable;
 
 /**
  * Created by Justin on 8/3/2016.
@@ -58,8 +72,11 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
                         for(String s:context.getResources().getStringArray(R.array.variables_items)){
                             display.add(s);
                         }
-                        for(NumberVariable v:ScriptBlockManager.getVariables()){
-                            display.add(v.getName());
+                        synchronized (ScriptBlockManager.getVariables()) {
+                            for (Iterator<NumberVariable> iterator = ScriptBlockManager.getVariables().iterator(); iterator.hasNext(); ) {
+                                NumberVariable n = iterator.next();
+                                display.add(n.getName());
+                            }
                         }
                         listView.setAdapter(new ArrayAdapter<>(context, R.layout.drawer_item_layout, display));
                         break;
@@ -137,12 +154,19 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
                         listView.setAdapter(new ArrayAdapter<>(context, R.layout.drawer_item_layout,
                                 context.getResources().getStringArray(R.array.drawer_items)));
                         break;
+                    case 2://set variable
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new SetNumberVariable());
+                        listView.setAdapter(new ArrayAdapter<>(context, R.layout.drawer_item_layout,
+                                context.getResources().getStringArray(R.array.drawer_items)));
+                        break;
+
                 }
-                if(i>1){//user clicked a variable, open up dialog
+                if(i>2){//user clicked a variable, open up dialog
                     listView.setAdapter(new ArrayAdapter<>(context, R.layout.drawer_item_layout,
                             context.getResources().getStringArray(R.array.drawer_items)));
                     drawerLayout.closeDrawer(Gravity.START);
-                    ScriptBlockManager.getVariables().get(i-2).makeDialog();
+                    ScriptBlockManager.getVariables().get(i-3).makeDialog();
                 }
                 index=-1;
                 break;
@@ -160,6 +184,19 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
                 switch(i){
                     case 1://add
                         drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new Add());
+                        break;
+                    case 2://subtract
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new Subtract());
+                        break;
+                    case 3://multiply
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new Multiply());
+                        break;
+                    case 4://divide
+                        drawerLayout.closeDrawer(Gravity.START);
+                        ScriptBlockManager.addScriptBlock(new Divide());
                         break;
                 }
                 listView.setAdapter(new ArrayAdapter<>(context, R.layout.drawer_item_layout,

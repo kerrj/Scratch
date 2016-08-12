@@ -125,8 +125,25 @@ public class While extends ScriptBlock {
 
     @Override
     public String parse(){
-        return "";
+        String script="";
+        try {
+            script = "while(" + conditionalChild.parse() + "){";
+            script += bodyChild.parse();
+        }catch(NullPointerException n){
+            try {
+                return "" + getChild().parse();
+            }catch(NullPointerException e){
+                return "";
+            }
+        }
+        script+="}";
+        try {
+            return script+getChild().parse();
+        }catch (NullPointerException n){
+            return script;
+        }
     }
+
 
     @Override
     public ArrayList<Rect> getRectangles(){

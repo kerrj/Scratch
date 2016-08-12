@@ -17,12 +17,14 @@ import android.widget.ListView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
 import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.TargetError;
 import justin.scratch.logic.If;
+import justin.scratch.variables.NumberVariable;
 
 public class MainActivity extends ActionBarActivity {
     private FileManager fileManager=new FileManager();
@@ -36,6 +38,7 @@ public class MainActivity extends ActionBarActivity {
     public static MainActivity getActivity(){
         return activity;
     }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -47,14 +50,28 @@ public class MainActivity extends ActionBarActivity {
         listView.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_item_layout, getResources().getStringArray(R.array.drawer_items)));
         listView.setOnItemClickListener(clickListener);
         fileManager.init();
-//        scriptEditor=(EditText)findViewById(R.id.editText);
-//        scriptEditor.setText(fileManager.getScript());
     }
 
     public void run(View view){
-//        String input=scriptEditor.getText().toString();
-//        fileManager.setScript(input);
+        String input="";
+        synchronized (ScriptBlockManager.getVariables()) {
+            for (Iterator<NumberVariable> iterator = ScriptBlockManager.getVariables().iterator(); iterator.hasNext(); ) {
+                NumberVariable n = iterator.next();
+                input += n.parse();
+            }
+        }
+        synchronized(ScriptBlockManager.getScriptBlocks()) {
+            for (Iterator<ScriptBlock> iterator = ScriptBlockManager.getScriptBlocks().iterator(); iterator.hasNext(); ) {
+                ScriptBlock s = iterator.next();
+                if(s.getType().equalsIgnoreCase("Start")) {
+                    input += s.parse();
+                }
+            }
+        }
+        fileManager.setScript(input);
         Intent intent=new Intent(MainActivity.this,RunActivity.class);
         startActivity(intent);
+    }
+    public void save(View view){
     }
 }

@@ -29,6 +29,10 @@ public class And extends ScriptBlock {
         canvas.drawText("And",(float)x+10,(float)y+TEXT_SIZE,paint);
     }
     @Override
+    public String getType(){
+        return "And";
+    }
+    @Override
     public int getWidth(){
         return WIDTH;
     }
@@ -45,7 +49,11 @@ public class And extends ScriptBlock {
     }
     @Override
     public String parse(){
-        return "&&";
+        try {
+            return "&&" + getChild().parse();
+        }catch (NullPointerException n){
+            return "";
+        }
     }
 
 
