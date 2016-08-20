@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/project_menu_textView"
+        android:text="Select a project to load or create a new one"
+        />
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/transparentGrey"
+        android:onClick="newProject"
+        android:id="@+id/project_menu_button"
+        android:layout_below="@+id/project_menu_textView"
+        android:text="New"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/project_menu_button">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/project_menu_TableLayout"
+            >
+
+        </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

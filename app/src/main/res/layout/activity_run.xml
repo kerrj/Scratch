@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <justin.scratch.Runtime.RuntimeSurfaceView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text"/>
+        android:layout_height="match_parent"
+        android:id="@+id/activity_run_surfaceView"
+        />
 </RelativeLayout>

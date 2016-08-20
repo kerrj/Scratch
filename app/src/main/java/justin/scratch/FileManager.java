@@ -1,6 +1,8 @@
 package justin.scratch;
 
 import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,10 +12,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
-import justin.scratch.variables.NumberVariable;
+import justin.scratch.Scripting.MainActivity;
+import justin.scratch.Scripting.SaveInstance;
 
 /**
  * Created by Justin on 8/3/2016.
@@ -67,50 +68,118 @@ public class FileManager {
             e.printStackTrace();
         }
     }
-    public void save(List<ScriptBlock> blocks,List<NumberVariable> variables,String projectName){
-        synchronized (variables) {
-            int i=0;
-            for (Iterator<NumberVariable> iterator = variables.iterator(); iterator.hasNext(); ) {
-                try {
-                    NumberVariable n = iterator.next();
-                    File file = new File(MainActivity.getActivity().getFilesDir()+"/"+projectName+"/Variables", Integer.toString(i)+".ser");
-                    if (!file.exists()) {
-                        file.createNewFile();
-                    }
-                    fos = new FileOutputStream(file);
-                    oos=new ObjectOutputStream(fos);
-                    oos.writeObject(n);
-                    oos.close();
-                    fos.close();
-                    i++;
-                }catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            synchronized (blocks){
-                int k=0;
-                for (Iterator<ScriptBlock> iterator = blocks.iterator(); iterator.hasNext(); ) {
-                    try {
-                        ScriptBlock s = iterator.next();
-                        File file = new File(MainActivity.getActivity().getFilesDir()+"/"+projectName+"/ScriptBlocks", Integer.toString(k)+".ser");
-                        if (!file.exists()) {
-                            file.createNewFile();
-                        }
-                        fos = new FileOutputStream(file);
-                        oos=new ObjectOutputStream(fos);
-                        oos.writeObject(s);
-                        oos.close();
-                        fos.close();
-                        k++;
-                    }catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+    public void addProject(String projectName){
+        File projects=new File(MainActivity.getActivity().getFilesDir(),"projects.txt");
+        if(!projects.exists()){
+            try {
+                projects.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+        try {
+            fis=new FileInputStream(projects);
+            byte[] buffer=new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            fos=new FileOutputStream(projects);
+            String contents=new String(buffer,"UTF-8");
+            Log.d("Contents",contents);
+            contents=contents+projectName+";";
+            Log.d("Contents",contents);
+            fos.write(contents.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    public String[] getProjects(){
+        File projects=new File(MainActivity.getActivity().getFilesDir(),"projects.txt");
+        if(!projects.exists()){
+            try {
+                projects.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            fis=new FileInputStream(projects);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> s=new ArrayList<>();
+        try {
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String contents=new String(buffer,"UTF-8");
+            if(contents.length()>0){
+                while(true) {
+                    String t = contents.substring(0,contents.indexOf(";"));
+                    contents = contents.substring(contents.indexOf(";")+1);
+                    s.add(t);
+                    Log.d("Running", contents);
+                    if (contents.length() == 0) {
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] strings=new String[s.size()];
+        int i=0;
+        for(String string:s){
+            strings[i]=string;
+            i++;
+        }
+        return strings;
+    }
+    public void save(SaveInstance instance, final String projectName){
+        File f=new File(MainActivity.getActivity().getFilesDir()+"/"+projectName+".ser");
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try{
+            fos = new FileOutputStream(f);
+            oos=new ObjectOutputStream(fos);
+            oos.writeObject(instance);
+            MainActivity.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.getActivity().getBaseContext(),"Saved Project: "+projectName,Toast.LENGTH_LONG).show();
+                }
+            });
+            oos.close();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+    public SaveInstance load(String projectName){
+        File f=new File(MainActivity.getActivity().getFilesDir(),projectName+".ser");
+        if(f.exists()){
+            try {
+                fis = new FileInputStream(f);
+                ois=new ObjectInputStream(fis);
+                SaveInstance m=(SaveInstance)ois.readObject();
+                ois.close();
+                return m;
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }catch(IOException e){
+                e.printStackTrace();
+            }catch(ClassNotFoundException e){
+                e.printStackTrace();
+            }
+        }
+        return new SaveInstance();
     }
 }

@@ -37,6 +37,7 @@
     <string-array name="sprites_items">
         <item>Back</item>
         <item>Sprite</item>
+        <item>Print</item>
     </string-array>
 
     <string-array name="math_items">

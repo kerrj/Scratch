@@ -6,19 +6,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:text="How many times should this repeat?"
-        android:id="@+id/dialog_repeat_textView"
+        android:text="Choose a name for your new sprite"
+        android:id="@+id/dialog_new_sprite_textView"
         />
     <EditText
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:textColor="@android:color/black"
-        android:id="@+id/dialog_repeat_editText"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="25dp"
+        android:layout_width="230dp"
         android:background="@color/transparentGrey"
-        android:layout_below="@+id/dialog_repeat_textView"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/dialog_new_sprite_textView"
+        android:id="@+id/dialog_new_sprite_editText"
         />
 </RelativeLayout>

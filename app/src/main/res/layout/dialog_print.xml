@@ -5,20 +5,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="How many times should this repeat?"
-        android:id="@+id/dialog_repeat_textView"
+        android:text="Enter text or choose a variable to print"
+        android:id="@+id/dialog_print_textView"
         />
     <EditText
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:id="@+id/dialog_print_editText"
         android:textColor="@android:color/black"
-        android:id="@+id/dialog_repeat_editText"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="25dp"
         android:background="@color/transparentGrey"
-        android:layout_below="@+id/dialog_repeat_textView"
+        android:layout_below="@+id/dialog_print_textView"
         />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dialog_print_editText"
+        android:layout_below="@+id/dialog_print_textView"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/dialog_print_spinner"
+        >
+    </Spinner>
 </RelativeLayout>

@@ -3,31 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="justin.scratch.MainActivity"
+    tools:context=".Scripting.MainActivity"
     android:id="@+id/drawer_layout">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <justin.scratch.MySurfaceView
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/activity_main_scrollView">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/activity_main_spriteLayout"
+                >
+
+            </RelativeLayout>
+        </HorizontalScrollView>
+        <justin.scratch.Scripting.ScriptBlockSurfaceView
             android:layout_width="match_parent"
             android:layout_height="560dp"
+            android:layout_below="@+id/activity_main_scrollView"
             android:id="@+id/surface_view"/>
         <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
             android:background="@color/transparentGrey"
             android:onClick="run"
+            android:layout_below="@+id/activity_main_scrollView"
             android:text="Run"
             android:layout_centerHorizontal="true"
             android:id="@+id/activity_main_runButton"
-            />
+            android:textSize="10sp" />
         <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/activity_main_scrollView"
             android:background="@color/transparentGrey"
             android:onClick="save"
             android:layout_toRightOf="@+id/activity_main_runButton"
-            android:text="Save"/>
+            android:text="Save"
+            android:id="@+id/activity_main_saveButton"
+            android:textSize="10sp" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:background="@color/transparentGrey"
+            android:onClick="projects"
+            android:layout_below="@+id/activity_main_scrollView"
+            android:layout_toLeftOf="@+id/activity_main_runButton"
+            android:text="Projects"
+            android:textSize="10sp" />
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:background="@color/transparentGrey"
+            android:onClick="newSprite"
+            android:layout_below="@+id/activity_main_scrollView"
+            android:layout_toRightOf="@+id/activity_main_saveButton"
+            android:text="New Sprite"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/activity_main_spriteButton"
+            android:textSize="10sp" />
+
+
     </RelativeLayout>
     <ListView
         android:layout_width="200dp"
